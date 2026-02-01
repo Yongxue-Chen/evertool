@@ -31,7 +31,7 @@ A modular, extensible web application hosting various developer utilities. Built
     ```bash
     python app.py
     ```
-2.  Open your browser and navigate to `http://127.0.0.1:5000`.
+2.  Open your browser and navigate to `http://127.0.0.1:8080`.
 
 ## Contributing / Adding New Tools
 
