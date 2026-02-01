@@ -25,7 +25,11 @@
         *   **公开仓库**：直接输入 `https://github.com/Yongxue-Chen/toolbox.git`。
         *   **私有仓库**：如果你的是私有仓库，需要使用 **Personal Access Token (PAT)**。
             *   地址格式：`https://<你的Token>@github.com/Yongxue-Chen/toolbox.git`
-            *   *如何获取 Token*：GitHub -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token -> 勾选 `repo` 权限。
+            *   *如何获取 Token*：
+                1.  GitHub -> Settings -> Developer settings -> Personal access tokens -> **Tokens (classic)**。
+                2.  点击 **Generate new token (classic)**。
+                3.  **Scopes (权限)**：只勾选 **`repo`** (Full control of private repositories) 即可。
+                4.  **注意**：不需要勾选 `read:packages`，除非你是从 GitHub Packages 拉取镜像（本项目是拉取代码，所以不需要）。
     *   **分支**：通常默认为 `main`，根据你实际推送的分支填写。
     *   **Dockerfile**：默认应该会自动识别根目录下的 `Dockerfile`，如果需要手动指定，填 `./Dockerfile`。
     *   **上下文**：默认为 `.`。
