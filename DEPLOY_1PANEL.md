@@ -20,8 +20,12 @@
 4.  在弹出的窗口中进行如下配置：
     *   **名称**：输入一个易于识别的名称，例如 `toolbox-app`。
     *   **来源**：选择 **Git**（或者“远程仓库”）。
-    *   **各称**：这里可能需要填写 git 仓库地址。
-    *   **仓库地址**：输入你的 GitHub 仓库地址，例如 `https://github.com/Yongxue-Chen/toolbox.git`。
+    *   **各称**：这里可以随便填。
+    *   **仓库地址**：
+        *   **公开仓库**：直接输入 `https://github.com/Yongxue-Chen/toolbox.git`。
+        *   **私有仓库**：如果你的是私有仓库，需要使用 **Personal Access Token (PAT)**。
+            *   地址格式：`https://<你的Token>@github.com/Yongxue-Chen/toolbox.git`
+            *   *如何获取 Token*：GitHub -> Settings -> Developer settings -> Personal access tokens -> Tokens (classic) -> Generate new token -> 勾选 `repo` 权限。
     *   **分支**：通常默认为 `main`，根据你实际推送的分支填写。
     *   **Dockerfile**：默认应该会自动识别根目录下的 `Dockerfile`，如果需要手动指定，填 `./Dockerfile`。
     *   **上下文**：默认为 `.`。
@@ -67,6 +71,9 @@
 
 ## 常见问题
 
+*   **需要安装 Git 或配置 SSH Key 吗？**
+    *   **不需要**。使用上述的 HTTPS + Token 方式，1Panel 会直接通过 HTTPS 协议拉取代码，不需要你在服务器上配置 SSH Key。
+    *   1Panel 面板自身具备拉取代码的功能，你不需要手动在服务器命令行安装 Git（尽管通常服务器都已经预装了）。
 *   **构建失败**：检查 GitHub 仓库地址是否正确，网络是否畅通（部分国内服务器访问 GitHub 可能较慢，可以尝试配置镜像加速或使用 Gitee）。
 *   **无法访问**：请务必检查云服务商的安全组设置，放行 8080 端口。
 
