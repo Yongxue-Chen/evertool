@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="hero">
+    <h1>Developer Utilities</h1>
+    <p>A collection of handy tools for everyday tasks.</p>
+</section>
+
+<div class="tools-grid">
+    {% for tool in tools %}
+    <a href="{{ url_for(tool.endpoint) }}" class="tool-card">
+        <div class="tool-icon">
+            <i class="fa-solid {{ tool.icon }}"></i>
+        </div>
+        <div class="tool-info">
+            <h3>{{ tool.title }}</h3>
+            <p>{{ tool.description }}</p>
+        </div>
+        <div class="tool-arrow">
+            <i class="fa-solid fa-arrow-right"></i>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+{% endblock %}

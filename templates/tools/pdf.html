@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}PDF to Transparent PNG{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+    <a href="{{ url_for('index') }}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Tools
+    </a>
+
+    <h2><i class="fa-solid fa-file-pdf"></i> PDF to Transparent PNG</h2>
+    <p class="tool-desc">Convert PDF pages into transparent PNG images. Removes white backgrounds automatically.</p>
+
+    <div class="alert alert-info">
+        <i class="fa-solid fa-circle-info"></i> Note: Large PDFs may take a few moments to process.
+    </div>
+
+    <form action="{{ url_for('pdf.convert') }}" method="POST" enctype="multipart/form-data" class="tool-form">
+        <div class="form-group">
+            <label for="pdf" class="form-label">Select PDF File</label>
+            <input type="file" id="pdf" name="pdf" class="form-input" accept=".pdf" required>
+        </div>
+        <button type="submit" class="btn">Convert</button>
+    </form>
+
+    {% if images %}
+    <div class="result-area" style="display: block;">
+        <h3>Converted Pages</h3>
+
+        <div class="preview-grid"
+            style="display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-bottom: 20px;">
+            {% for img in images %}
+            <div class="preview-item">
+                <img src="{{ img.url }}" alt="{{ img.name }}" class="result-img" style="width: 100%; height: auto;">
+                <p style="font-size: 0.8rem; color: #94a3b8;">{{ img.name }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <a href="{{ download_url }}" download="{{ download_name }}" class="btn"
+            style="width: auto; padding: 10px 30px;">
+            <i class="fa-solid fa-download"></i>
+            {% if images|length > 1 %}Download All (ZIP){% else %}Download PNG{% endif %}
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

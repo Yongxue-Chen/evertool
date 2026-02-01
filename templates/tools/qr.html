@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+
+{% block title %}Transparent QR Code{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+    <a href="{{ url_for('index') }}" class="back-link">
+        <i class="fa-solid fa-arrow-left"></i> Back to Tools
+    </a>
+
+    <h2><i class="fa-solid fa-qrcode"></i> Transparent QR Code</h2>
+    <p class="tool-desc">Generate a QR code with a transparent background specifically designed for overlays.</p>
+
+    <form action="{{ url_for('qr.generate') }}" method="POST" class="tool-form">
+        <div class="form-group">
+            <label for="url" class="form-label">URL or Text</label>
+            <input type="text" id="url" name="url" class="form-input" placeholder="https://example.com" required>
+        </div>
+
+        <div class="form-group">
+            <label class="form-label">Background Color</label>
+            <div class="radio-group" style="display: flex; gap: 20px; margin-top: 10px;">
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="background" value="transparent" checked>
+                    <span>Transparent</span>
+                </label>
+                <label style="display: flex; align-items: center; gap: 8px; cursor: pointer;">
+                    <input type="radio" name="background" value="white">
+                    <span>White</span>
+                </label>
+            </div>
+        </div>
+        <button type="submit" class="btn">Generate</button>
+    </form>
+
+    {% if result_image %}
+    <div class="result-area" style="display: block;">
+        <h3>Generated QR Code</h3>
+        <p class="result-note">Right-click to copy or use the button below.</p>
+        <img src="{{ result_image }}" alt="Generated QR Code" class="result-img">
+        <br>
+        <a href="{{ result_image }}" download="{{ filename }}" class="btn" style="width: auto; padding: 10px 30px;">
+            <i class="fa-solid fa-download"></i> Download PNG
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
