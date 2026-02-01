@@ -12,8 +12,8 @@ To add a new tool:
 TOOLS = [
     {
         'id': 'qr',
-        'title': 'Transparent QR Code',
-        'description': 'Generate QR codes with transparent backgrounds.',
+        'title': 'Generate QR Code',
+        'description': 'Generate QR codes with customizable backgrounds.',
         'icon': 'fa-qrcode',
         'endpoint': 'qr.index' # Flask endpoint for the tool's page
     },

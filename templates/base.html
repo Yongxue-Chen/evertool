@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}Toolbox{% endblock %} - Dev Tools</title>
+    <title>{% block title %}evertool{% endblock %} - Dev Tools</title>
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,16 +14,18 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
     <div class="app-container">
         <header class="main-header">
             <div class="logo">
                 <a href="{{ url_for('index') }}">
-                    <i class="fa-solid fa-toolbox"></i> Toolbox
+                    <!-- User can replace src with their own URL or local file -->
+                    <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Logo"> evertool
                 </a>
             </div>
             <nav>
-                <a href="https://github.com/yourusername/toolbox" target="_blank" class="github-link">
+                <a href="https://github.com/Yongxue-Chen/toolbox" target="_blank" class="github-link">
                     <i class="fa-brands fa-github"></i>
                 </a>
             </nav>
@@ -30,13 +33,13 @@
 
         <main class="content">
             {% with messages = get_flashed_messages(with_categories=true) %}
-                {% if messages %}
-                    <div class="flash-messages">
-                        {% for category, message in messages %}
-                            <div class="flash flash-{{ category }}">{{ message }}</div>
-                        {% endfor %}
-                    </div>
-                {% endif %}
+            {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
             {% endwith %}
 
             {% block content %}{% endblock %}
@@ -48,4 +51,5 @@
     </div>
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 </body>
+
 </html>

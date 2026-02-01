@@ -30,3 +30,4 @@ venv/
 *.zip
 *.pdf
 !sample.pdf
+!static/img/logo.png

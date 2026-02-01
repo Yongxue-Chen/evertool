@@ -56,8 +56,10 @@ a {
     gap: 10px;
 }
 
-.logo i {
-    color: var(--accent);
+.logo img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
 }
 
 .github-link {
