@@ -1,0 +1,324 @@
+:root {
+    --bg-color: #1a1b1e;
+    --sidebar-bg: #25262b;
+    --text-primary: #e6e6e6;
+    --text-secondary: #909296;
+    --accent-color: #4dabf7;
+    --accent-hover: #339af0;
+    --border-color: #2c2e33;
+    --paper-color: #ffffff;
+    --danger-color: #ff6b6b;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    overflow: hidden;
+    /* App-like feel */
+    height: 100vh;
+    width: 100vw;
+}
+
+.app-container {
+    display: flex;
+    height: 100%;
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: var(--sidebar-bg);
+    border-right: 1px solid var(--border-color);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    z-index: 10;
+}
+
+.logo h1 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+}
+
+.logo p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.control-group label {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-secondary);
+    font-weight: 600;
+}
+
+.control-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.control-item span {
+    font-size: 0.9rem;
+}
+
+.value-display {
+    font-size: 0.8rem;
+    color: var(--accent-color);
+    align-self: flex-end;
+}
+
+input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent-color);
+}
+
+.metadata-drop-zone {
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    transition: all 0.2s;
+    cursor: default;
+}
+
+.metadata-drop-zone.drag-over {
+    border-color: var(--accent-color);
+    background-color: rgba(77, 171, 247, 0.1);
+    color: var(--accent-color);
+}
+
+.icon {
+    font-size: 1.5rem;
+}
+
+.actions {
+    margin-top: auto;
+}
+
+.btn {
+    width: 100%;
+    padding: 0.75rem;
+    border: none;
+    border-radius: 6px;
+    font-family: inherit;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn.primary {
+    background-color: var(--accent-color);
+    color: white;
+}
+
+.btn.primary:hover {
+    background-color: var(--accent-hover);
+}
+
+.btn:disabled {
+    background-color: var(--border-color);
+    color: var(--text-secondary);
+    cursor: not-allowed;
+}
+
+.status-bar {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Main Workspace */
+.workspace {
+    flex: 1;
+    position: relative;
+    background-color: var(--bg-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    /* Dot pattern for empty state maybe? Let's keep it clean for now */
+}
+
+.canvas-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    overflow: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Canvas Board (White Background) */
+.canvas-board {
+    min-width: 100%;
+    min-height: 100%;
+    background-color: white;
+    padding: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* Allow scrolling if stage is huge */
+    width: fit-content;
+    height: fit-content;
+}
+
+/* Canvas Stage (Image Container) */
+.canvas-stage {
+    position: relative;
+    /* remove BG here so if image is transparent we see white board? 
+       Actually user wants to see transition to white. 
+       So stage should probably NOT have its own bg if it's just a holder?
+       BUT editorCanvas has bg-color var(--paper-color).
+       If we want to test transparency against white board, editorCanvas should be transparent?
+       Wait, editorCanvas is the image.
+       If the image has transparency, we want to see the board's white.
+    */
+    /* No transitions on width/height to keep sync instant */
+}
+
+canvas {
+    display: block;
+    /* Remove inline spacing */
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+#editorCanvas {
+    /* If we want to see the Board's white background for transparency checks,
+       we should probably remove this or make it transparent.
+       The default was --paper-color (white).
+       If we keep it white, it's fine.
+    */
+    /* background-color: var(--paper-color); */
+    z-index: 1;
+}
+
+#uiCanvas {
+    /* Position is now relative to stage, so 0,0 covers it */
+    pointer-events: none;
+    z-index: 2;
+    background: transparent;
+    cursor: default;
+}
+
+/* We need pointer-events auto if we bind listeners to uiCanvas */
+#uiCanvas.interactive {
+    pointer-events: auto;
+    cursor: crosshair;
+}
+
+/* Corner Markers */
+.corner-marker {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ff6b6b;
+    /* Red marker */
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+.corner-marker.tl {
+    top: -2px;
+    left: -2px;
+    border-right: none;
+    border-bottom: none;
+}
+
+.corner-marker.tr {
+    top: -2px;
+    right: -2px;
+    border-left: none;
+    border-bottom: none;
+}
+
+.corner-marker.bl {
+    bottom: -2px;
+    left: -2px;
+    border-right: none;
+    border-top: none;
+}
+
+.corner-marker.br {
+    bottom: -2px;
+    right: -2px;
+    border-left: none;
+    border-top: none;
+}
+
+
+.drop-prompt {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    pointer-events: none;
+    color: var(--text-secondary);
+}
+
+.drop-prompt h2 {
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+/* Drag Over State for Main Workspace */
+.workspace.drag-over .canvas-wrapper {
+    transform: scale(0.98);
+    opacity: 0.8;
+}
+
+.workspace.drag-over {
+    background-color: rgba(77, 171, 247, 0.05);
+    /* Blue tint */
+}
+
+/* Back-to-toolbox link (added for evertool integration) */
+.toolbox-back-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 100;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    background-color: var(--sidebar-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.85rem;
+    transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.toolbox-back-link:hover {
+    color: var(--text-primary);
+    border-color: var(--accent-color);
+}

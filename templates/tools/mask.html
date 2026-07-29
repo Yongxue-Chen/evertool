@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alpha Mask Processor - evertool</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='tools/mask/css/style.css') }}">
+</head>
+
+<body>
+    <a href="{{ url_for('index') }}" class="toolbox-back-link">&larr; Back to Tools</a>
+
+    <div class="app-container">
+        <!-- Sidebar / Controls -->
+        <aside class="sidebar">
+            <div class="logo">
+                <h1>Transitional</h1>
+                <p>Alpha Mask Processor</p>
+            </div>
+
+            <div class="control-group">
+                <label>Settings</label>
+                <div class="control-item">
+                    <span>Corner Radius</span>
+                    <input type="range" id="radiusSlider" min="0" max="500" value="100">
+                    <span class="value-display" id="radiusValue">100px</span>
+                </div>
+                <div class="control-item">
+                    <span>Feather Size</span>
+                    <input type="range" id="featherSlider" min="0" max="200" value="50">
+                    <span class="value-display" id="featherValue">50px</span>
+                </div>
+            </div>
+
+            <div class="control-group">
+                <label>Metadata</label>
+                <div id="metadataDropZone" class="metadata-drop-zone"
+                    title="Drop previously processed image here to load its kernel">
+                    <span class="icon">📋</span>
+                    <span>Drop source image to copy settings</span>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button id="exportBtn" class="btn primary" disabled>Export Image</button>
+            </div>
+
+            <div class="status-bar" id="statusBar">Ready</div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="workspace" id="mainDropZone">
+            <div class="canvas-wrapper" id="canvasContainer">
+                <!-- The Board: White background, centered content, padded -->
+                <div class="canvas-board">
+                    <!-- The Stage: Sized to image, contains canvases and markers -->
+                    <div id="canvasStage" class="canvas-stage">
+                        <canvas id="editorCanvas"></canvas>
+                        <canvas id="uiCanvas"></canvas>
+
+                        <!-- Corner Markers -->
+                        <div class="corner-marker tl"></div>
+                        <div class="corner-marker tr"></div>
+                        <div class="corner-marker bl"></div>
+                        <div class="corner-marker br"></div>
+                    </div>
+                </div>
+
+                <div id="dropPrompt" class="drop-prompt">
+                    <div class="icon">🖼️</div>
+                    <h2>Drop Image Here</h2>
+                    <p>Supported format: PNG</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modules (Loaded sequentially for global scope access) -->
+    <script src="{{ url_for('static', filename='tools/mask/js/io.js') }}"></script>
+    <script src="{{ url_for('static', filename='tools/mask/js/metadata.js') }}"></script>
+    <script src="{{ url_for('static', filename='tools/mask/js/processor.js') }}"></script>
+    <script src="{{ url_for('static', filename='tools/mask/js/app.js') }}"></script>
+</body>
+
+</html>
