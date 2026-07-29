@@ -1,6 +1,6 @@
-# 如何使用 1Panel 和 GitHub 部署 Toolbox 到云服务器
+# 如何使用 1Panel 和 GitHub 部署 evertool 到云服务器
 
-本文档将指导你如何将 Toolbox 项目通过 1Panel 面板和 GitHub 部署到你的云服务器上。
+本文档将指导你如何将 evertool 项目通过 1Panel 面板和 GitHub 部署到你的云服务器上。
 
 ## 前置准备
 
@@ -23,16 +23,16 @@
     *   Debian/Ubuntu: `apt update && apt install -y git`
     *   CentOS/RedHat: `yum install -y git`
 5.  **克隆代码**：
-    *   创建一个目录存放代码，例如 `/opt/toolbox`：
+    *   创建一个目录存放代码，例如 `/opt/evertool`：
         ```bash
-        mkdir -p /opt/toolbox
-        cd /opt/toolbox
+        mkdir -p /opt/evertool
+        cd /opt/evertool
         ```
     *   使用带 Token 的 URL 克隆（因为是私有仓库）：
         ```bash
         # 格式：git clone https://<Token>@github.com/<用户名>/<仓库名>.git .
         # 注意最后有个空格和点，表示克隆到当前目录
-        git clone https://<你的Token>@github.com/Yongxue-Chen/toolbox.git .
+        git clone https://<你的Token>@github.com/Yongxue-Chen/evertool.git .
         ```
 
 ## 步骤三：在 1Panel 中构建镜像
@@ -40,9 +40,9 @@
 1.  在左侧菜单栏点击 **容器** -> **镜像**。
 2.  点击顶部的 **构建镜像** 按钮。
 3.  进行如下配置：
-    *   **名称**：`toolbox-app`。
-    *   **Dockerfile**：选择 **路径选择** -> 找到并选中 `/opt/toolbox/Dockerfile` 这个文件。
-    *   **上下文**：如果需要填写，通常会自动填充或者手动填 `/opt/toolbox` (即代码根目录)。如果不显示上下文选项，则只需选中 Dockerfile 即可。
+    *   **名称**：`evertool-app`。
+    *   **Dockerfile**：选择 **路径选择** -> 找到并选中 `/opt/evertool/Dockerfile` 这个文件。
+    *   **上下文**：如果需要填写，通常会自动填充或者手动填 `/opt/evertool` (即代码根目录)。如果不显示上下文选项，则只需选中 Dockerfile 即可。
     *   **点击确认** 开始构建。
 
 ## 步骤四：创建并运行容器
@@ -50,8 +50,8 @@
 1.  在 **容器** 菜单下，点击 **容器** 列表。
 2.  点击 **创建容器** 按钮。
 3.  进行如下配置：
-    *   **名称**：`toolbox-container`。
-    *   **镜像**：选择刚才构建好的 `toolbox-app`。
+    *   **名称**：`evertool-container`。
+    *   **镜像**：选择刚才构建好的 `evertool-app`。
     *   **端口**：点击“添加”，主机端口填写 `8080`，容器端口填写 `8080`。
     *   **重启策略**：`Always`。
 4.  点击 **确认** 创建并启动容器。
@@ -64,14 +64,14 @@
 
 1.  **更新代码**：
     *   进入 **主机** -> **终端**。
-    *   进入代码目录：`cd /opt/toolbox`。
+    *   进入代码目录：`cd /opt/evertool`。
     *   拉取更新：`git pull`。
 2.  **重新构建镜像**：
     *   **容器** -> **镜像** -> **构建镜像**。
-    *   名称输入 `toolbox-app` (保持一致)，路径选择 `/opt/toolbox/dockerfile`。
+    *   名称输入 `evertool-app` (保持一致)，路径选择 `/opt/evertool/dockerfile`。
     *   确认构建。
 3.  **重构容器**：
-    *   **容器** -> **容器** -> 找到 `toolbox-container` -> **更多** -> **重构**。
+    *   **容器** -> **容器** -> 找到 `evertool-container` -> **更多** -> **重构**。
 
 ## 常见问题
 

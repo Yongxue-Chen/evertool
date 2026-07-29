@@ -1,5 +1,5 @@
 """
-Registry for toolbox tools.
+Registry for evertool tools.
 To add a new tool:
 1. Import the blueprint.
 2. Add a dictionary to the TOOLS list.

@@ -1,4 +1,4 @@
-# evertool — Developer Toolbox
+# evertool
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
@@ -23,8 +23,8 @@ A modular, extensible web application hosting various developer utilities. Built
 ### Setup
 
 ```bash
-git clone https://github.com/Yongxue-Chen/toolbox.git
-cd toolbox
+git clone https://github.com/Yongxue-Chen/evertool.git
+cd evertool
 pip install -r requirements.txt
 ```
 
@@ -39,8 +39,8 @@ Then open `http://127.0.0.1:8080` in your browser.
 ### Run with Docker
 
 ```bash
-docker build -t toolbox-app .
-docker run -p 8080:8080 -e SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')" toolbox-app
+docker build -t evertool-app .
+docker run -p 8080:8080 -e SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')" evertool-app
 ```
 
 For a guided walkthrough of deploying with [1Panel](https://1panel.cn/), see [DEPLOY_1PANEL.md](DEPLOY_1PANEL.md).
@@ -56,7 +56,7 @@ For a guided walkthrough of deploying with [1Panel](https://1panel.cn/), see [DE
 This project is designed to be easily extensible using **Flask Blueprints**. Each tool lives in its own module under `tools/`, with its own template(s) under `templates/tools/` and, if needed, its own static assets under `static/tools/<tool_id>/`.
 
 ```
-toolbox/
+evertool/
 ├── app.py                 # App entry point
 ├── tools/                 # One module per tool (Flask Blueprints)
 │   ├── registry.py        # Central list of registered tools
