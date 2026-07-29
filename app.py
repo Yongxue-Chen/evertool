@@ -1,8 +1,9 @@
+import os
 from flask import Flask, render_template
 from tools.registry import TOOLS, register_tools
 
 app = Flask(__name__)
-app.secret_key = 'dev_key'  # Change for production
+app.secret_key = os.environ.get('SECRET_KEY', 'dev_key')  # Set SECRET_KEY in production
 
 # Register Blueprints
 register_tools(app)

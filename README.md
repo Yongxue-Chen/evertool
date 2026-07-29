@@ -40,10 +40,16 @@ Then open `http://127.0.0.1:8080` in your browser.
 
 ```bash
 docker build -t toolbox-app .
-docker run -p 8080:8080 toolbox-app
+docker run -p 8080:8080 -e SECRET_KEY="$(python3 -c 'import secrets; print(secrets.token_hex(32))')" toolbox-app
 ```
 
 For a guided walkthrough of deploying with [1Panel](https://1panel.cn/), see [DEPLOY_1PANEL.md](DEPLOY_1PANEL.md).
+
+### Configuration
+
+| Variable     | Required | Description                                                                                  |
+|--------------|----------|------------------------------------------------------------------------------------------------|
+| `SECRET_KEY` | Recommended in production | Flask's session/flash-message signing key. Falls back to an insecure default (`dev_key`) if unset — always set this to a random value in production, e.g. `python3 -c "import secrets; print(secrets.token_hex(32))"`. |
 
 ## Architecture
 
