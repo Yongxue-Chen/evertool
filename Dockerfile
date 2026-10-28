@@ -21,5 +21,5 @@ COPY . .
 # Make port 8080 available to the world outside this container
 EXPOSE 8080
 
-# Run app.py when the container launches
-CMD ["python", "app.py"]
+# Serve with gunicorn (no debug server); PDF conversion can be slow, hence the long timeout
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "300", "app:app"]

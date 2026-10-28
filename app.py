@@ -13,4 +13,5 @@ def index():
     return render_template('index.html', tools=TOOLS)
 
 if __name__ == '__main__':
-    app.run(debug=True, port=8080, host='0.0.0.0')
+    # Local development only; the container runs gunicorn (see Dockerfile).
+    app.run(debug=os.environ.get('FLASK_DEBUG') == '1', port=8080, host='127.0.0.1')
