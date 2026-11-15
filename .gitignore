@@ -31,3 +31,4 @@ venv/
 *.pdf
 !sample.pdf
 !static/img/logo.png
+static/temp/

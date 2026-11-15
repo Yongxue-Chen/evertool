@@ -1,25 +1,27 @@
-# Use an official Python runtime as a parent image
-FROM python:3.10-slim
+FROM python:3.12-slim
 
-# Set the working directory in the container
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-# Copy the requirements file into the container at /app
-COPY requirements.txt .
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    poppler-utils \
+# poppler-utils: pdf2image shells out to pdftoppm
+RUN apt-get update && apt-get install -y --no-install-recommends poppler-utils \
     && rm -rf /var/lib/apt/lists/*
 
-# Install any needed packages specified in requirements.txt
+COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy the current directory contents into the container at /app
 COPY . .
 
-# Make port 8080 available to the world outside this container
+# Run unprivileged. The only path the app writes to is static/temp (converted
+# PDF pages, removed after an hour); everything else stays read-only.
+RUN useradd --system --uid 10001 --no-create-home --shell /usr/sbin/nologin evertool \
+    && chmod -R a+rX /app \
+    && mkdir -p /app/static/temp && chown evertool:evertool /app/static/temp
+USER evertool
+
 EXPOSE 8080
 
 # Serve with gunicorn (no debug server); PDF conversion can be slow, hence the long timeout
-CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "300", "app:app"]
+CMD ["gunicorn", "--bind", "0.0.0.0:8080", "--workers", "2", "--timeout", "300", "--worker-tmp-dir", "/dev/shm", "app:app"]
