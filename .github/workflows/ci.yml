@@ -30,6 +30,9 @@ jobs:
             echo "::error::app imported without SECRET_KEY"; exit 1
           fi
 
+      - name: Unit tests
+        run: docker run --rm evertool:ci python -m unittest discover -s tests -v
+
       - name: Smoke test
         run: |
           docker run -d --name evertool-ci -p 8080:8080 -e SECRET_KEY=ci-not-a-real-secret evertool:ci
@@ -39,4 +42,7 @@ jobs:
           done
           curl -fsS -X POST -d 'url=https://example.com&background=transparent' http://127.0.0.1:8080/tool/qr/generate | grep -q 'data:image/png;base64' \
             || { echo "::error::QR generation failed"; docker logs evertool-ci; exit 1; }
+          docker run --rm evertool:ci python -c "import io, sys; from PIL import Image; b = io.BytesIO(); Image.new('RGB', (200, 100), 'white').save(b, 'PDF'); sys.stdout.buffer.write(b.getvalue())" > ci.pdf
+          curl -fsS -F 'pdf=@ci.pdf' http://127.0.0.1:8080/tool/pdf/convert | grep -q 'page_1.png' \
+            || { echo "::error::PDF conversion failed"; docker logs evertool-ci; exit 1; }
           docker rm -f evertool-ci

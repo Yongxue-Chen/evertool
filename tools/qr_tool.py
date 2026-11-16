@@ -3,6 +3,8 @@ import qrcode
 import io
 import base64
 
+from tools.imaging import white_to_transparent
+
 qr_bp = Blueprint('qr', __name__)
 
 @qr_bp.route('/')
@@ -35,14 +37,7 @@ def generate():
 
         # Apply transparency if requested
         if background == 'transparent':
-            datas = img.getdata()
-            newData = []
-            for r, g, b, a in datas:
-                if r > 250 and g > 250 and b > 250:
-                    newData.append((255, 255, 255, 0))
-                else:
-                    newData.append((r, g, b, 255))
-            img.putdata(newData)
+            img = white_to_transparent(img)
         # Else: keep white background (already set by back_color="white")
 
         # Save to BytesIO

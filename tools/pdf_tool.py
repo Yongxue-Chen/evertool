@@ -7,6 +7,8 @@ import uuid
 import shutil
 import time
 
+from tools.imaging import white_to_transparent
+
 pdf_bp = Blueprint('pdf', __name__)
 
 TEMP_FOLDER = 'static/temp'
@@ -63,19 +65,8 @@ def convert():
         saved_files = []
         
         for i, page in enumerate(pages):
-            # Convert to RGBA
-            img = page.convert("RGBA")
-            datas = img.getdata()
-            new_data = []
-            
-            for item in datas:
-                if item[0] > 250 and item[1] > 250 and item[2] > 250:
-                    new_data.append((255, 255, 255, 0))
-                else:
-                    new_data.append(item)
-            
-            img.putdata(new_data)
-            
+            img = white_to_transparent(page)
+
             # Save single image
             filename = f"page_{i+1}.png"
             filepath = os.path.join(save_dir, filename)
